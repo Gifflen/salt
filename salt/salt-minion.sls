@@ -1,3 +1,5 @@
+#Installing nginx
+#configuring it to start on boot and reload if the speicified files are edited.
 nginx:
     pkg:
         - installed
@@ -6,7 +8,9 @@ nginx:
         - watch:
             - file: /var/www/html/index.html
             - file: /etc/nginx/sites-enabled/default
-pkgs:
+
+#Installaing required packages
+base_pkgs:
     pkg.installed:
         - pkgs:
             - vim
@@ -14,22 +18,19 @@ pkgs:
             - python
             - screen
             - git
-
-
-python_pkgs:
-    pkg.installed:
-        - pkgs:
             - python-pip
             - python-dev
             - build-essential
 
-pyrax:
-    pip:
-        - installed
-        - name:  pyrax
-    require:
-        - pkg: python-pip
+#Installing pyrax. Requiring the python package list above.
+pyrax_install:
+    pip.installed:
+        - name: pyrax
+        - require:
+            - pkg: base_pkgs
 
+#Setting up the required index file.
+#Using Jinga and Pillar to drop in required data. 
 /var/www/html/index.html:
     file.managed:
     - source: salt://index.html.jinga
@@ -38,6 +39,7 @@ pyrax:
     - require:
         - pkg: nginx
 
+#Dropping in base default host config to set pages in nginx
 /etc/nginx/sites-enabled/default:
     file.managed:
         - source: salt://default

@@ -4,7 +4,7 @@
         <p>
             Message: {{ pillar['message'] }}
             <br>
-            Hostname: {{ pillar['hostname'] }}
+            Hostname: {{ grains['localhost'] }}
             <br>
             User: {{ pillar['user'] }}
         </p>
