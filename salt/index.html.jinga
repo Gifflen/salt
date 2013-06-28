@@ -1,0 +1,13 @@
+<html>
+    <head></head>
+    <body>
+        <p>
+            Message: {{ pillar['message'] }}
+            <br>
+            Hostname: {{ pillar['hostname'] }}
+            <br>
+            User: {{ pillar['user'] }}
+        </p>
+    </body>
+</html>
+                
